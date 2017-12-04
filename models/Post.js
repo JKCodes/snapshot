@@ -4,19 +4,26 @@ var PostSchema = new mongoose.Schema({
   profile: {type:mongoose.Schema.Types.Mixed, default:{}},
   image: {type:String, default:''},
   caption: {type:String, default:''},
-  timestamp: {type:Date, default:Date.now}
+  geo: {
+    type: [Number],
+    index: '2d'
+  },
+
+  timestamp: {type:Date, default: Date.now}
 })
 
-PostSchema.methods.summary = function() {
+PostSchema.methods.summary = function(){
   var summary = {
-    id: this._id.toString(),
     profile: this.profile,
     image: this.image,
     caption: this.caption,
-    timestamp: this.timestamp
+    geo: this.geo,
+    timestamp: this.timestamp,
+    id: this._id.toString()
   }
 
   return summary
 }
+
 
 module.exports = mongoose.model('PostSchema', PostSchema)
