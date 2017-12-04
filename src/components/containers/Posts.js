@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { APIManager } from '../../utils'
 import { connect } from 'react-redux'
 import action from '../../actions'
+import { CreatePost } from '../view'
 
 class Posts extends Component {
 
@@ -18,6 +19,7 @@ class Posts extends Component {
 
     return (
       <div>
+        <CreatePost />
         <ol>
           { list }
         </ol>
