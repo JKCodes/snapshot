@@ -1,93 +1,63 @@
 var Profile = require('../models/Profile')
 var Promise = require('bluebird')
+var bcrypt = require('bcryptjs')
 
 module.exports = {
-  find: function(params, isRaw) {
-    return new Promise(function(resolve, reject) {
-      Profile.find(params, null, {sort: {timestamp: 1}}, function(err, profiles) {
-        if (err) {
-          reject(err)
-          return
-        }
+	get: function(params, isRaw){
+		return new Promise(function(resolve, reject){
+			Profile.find(params, function(err, profiles){
+				if (err){
+					reject(err)
+					return
+				}
 
-        if (isRaw) {
-          resolve(posts)
-        } else {
-          var list = []
-          
-          posts.forEach(function(post, i) {
-            list.push(post.summary())
-          })
+				if (isRaw == true)
+					resolve(profiles)
+				else {
+					var list = []
+					profiles.forEach(function(profile, i){
+						list.push(profile.summary())
+					})
 
-          resolve(list)
-        }
-      })
-    })
-  },
+					resolve(list)
+				}
+			})
+		})
+	},
 
-  findById: function(id, isRaw) {
-    return new Promise(function(resolve, reject) {
-      Profile.findById(id, function(err, profile) {
-        if (err) {
-          reject(err)
-          return
-        }
+	getById: function(id, isRaw){
+		return new Promise(function(resolve, reject){
+			Profile.findById(id, function(err, profile){
+				if (err){
+					reject(err)
+					return
+				}
 
-        if (isRaw) {
-          resolve(post)
-        } else {
-          resolve(post.summary())
-        }
-      })
-    })
-  },
+				if (isRaw == true)
+					resolve(profile)
+				else
+					resolve(profile.summary())
+			})
+		})
+	},
 
-  create: function(params, isRaw) {
-    return new Promise(function(resolve, reject) {    
-      Profile.create(params, function(err, profile) {
-        if (err) {
-          reject(err)
-          return
-        }
+	post: function(params, isRaw){
+		return new Promise(function(resolve, reject){
 
-        if (isRaw) {
-          resolve(post)
-        } else {
-          resolve(post.summary())
-        }
-      })
-    })
-  },
+			if (params['password']) // hash password:
+				params['password'] = bcrypt.hashSync(params.password, 10)
 
-  update: function(id, params, isRaw) {
-    return new Promise(function(resolve, reject) {
+			Profile.create(params, function(err, profile){
+				if (err){
+					reject(err)
+					return
+				}
 
-      Profile.findByIdAndUpdate(id, params, {new:true},function(err, profile) {
-        if (err) {
-          reject(err)
-          return
-        }
-
-        if (isRaw) {
-          resolve(post)
-        } else {
-          resolve(post.summary())
-        }
-      })
-    })
-  },
-
-  delete: function(id, isRaw) {
-    return new Promise(function(resolve, reject) {
-
-      Profile.findByIdAndRemove(id, function(err) {
-        if (err) {
-          reject(err)
-          return
-        }
-
-        resolve(null)
-      })
-    })
-  }
+				if (isRaw == true)
+					resolve(profile)
+				else
+					resolve(profile.summary())
+			})
+		})
+	}
 }
