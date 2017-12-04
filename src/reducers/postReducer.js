@@ -1,7 +1,7 @@
 import constants from '../constants'
 
 var initialState = {
-
+  list: []
 }
 
 export default (state = initialState, action) => {
@@ -9,6 +9,7 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case constants.POSTS_RECEIVED:
+      updated['list'] = action.posts
       return updated
     default:
       return state

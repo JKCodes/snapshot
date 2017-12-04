@@ -10,7 +10,17 @@ module.exports = {
           return
         }
 
-        resolve(comments)
+        if (isRaw) {
+          resolve(posts)
+        } else {
+          var list = []
+          
+          posts.forEach(function(post, i) {
+            list.push(post.summary())
+          })
+
+          resolve(list)
+        }
       })
     })
   },
@@ -23,7 +33,11 @@ module.exports = {
           return
         }
 
-        resolve(comment)
+        if (isRaw) {
+          resolve(post)
+        } else {
+          resolve(post.summary())
+        }
       })
     })
   },
@@ -36,7 +50,11 @@ module.exports = {
           return
         }
 
-        resolve(comment)
+        if (isRaw) {
+          resolve(post)
+        } else {
+          resolve(post.summary())
+        }
       })
     })
   },
@@ -50,7 +68,11 @@ module.exports = {
           return
         }
 
-        resolve(comment)
+        if (isRaw) {
+          resolve(post)
+        } else {
+          resolve(post.summary())
+        }
       })
     })
   },
