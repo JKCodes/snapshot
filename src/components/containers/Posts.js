@@ -17,6 +17,19 @@ class Posts extends Component {
 	}
 
 	submitPost(post){
+		const user = this.props.account.user
+
+		if (user == null) {
+			alert('Please sign up or login to submit.')
+			return
+
+		}
+
+		post['profile'] = {
+			id: user.id,
+			username: user.username
+		}
+
 		const currentLocation = this.props.posts.currentLocation
 		post['geo'] = [
 			currentLocation.lat,
@@ -50,7 +63,8 @@ class Posts extends Component {
 
 const stateToProps = (state) => {
 	return {
-		posts: state.post
+		posts: state.post,
+		account: state.account
 	}
 }
 
