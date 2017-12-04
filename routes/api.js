@@ -15,21 +15,19 @@ router.get('/:resource', function(req, res, next) {
     return
   }
 
-  controller.find(req.query, function(err, results) {
-    if (err) {
-      res.json({
-        confirmation: 'fail',
-        message: err
-      })
-
-      return
-    }
-
+  controller.find(req.query, false)
+  .then(function(results) {
     res.json({
       confirmation: 'success',
       results: results
     })
   })
+  .catch(function(err) {
+    res.json({
+      confirmation: 'fail',
+      message: err
+    })
+  })    
 })
 
 router.get('/:resource/:id', function(req, res, next) {
@@ -46,19 +44,17 @@ router.get('/:resource/:id', function(req, res, next) {
     return
   }
 
-  controller.findById(id, function(err, result) {
-    if (err) {
-      res.json({
-        confirmation: 'fail',
-        message: 'Not Found'
-      })
-
-      return
-    }
-
+  controller.findById(id, false)
+  .then(function(result) {
     res.json({
       confirmation: 'success',
       result: result
+    })
+  })
+  .catch(function(err) {
+    res.json({
+      confirmation: 'fail',
+      message: 'Not Found'
     })
   })
 })
@@ -76,19 +72,17 @@ router.post('/:resource', function(req, res, next) {
     return
   }
 
-  controller.create(req.body, function(err, result) {
-    if (err) {
-      res.json({
-        confirmation: 'fail',
-        message: err
-      })
-
-      return
-    }
-
+  controller.create(req.body, false)
+  .then(function(result) {
     res.json({
       confirmation: 'success',
       result: result
+    })
+  })
+  .catch(function(err) {
+    res.json({
+      confirmation: 'fail',
+      message: err
     })
   })
 })
@@ -107,19 +101,17 @@ router.put('/:resource/:id', function(req, res, next) {
     return
   }
 
-  controller.update(id, req.body, function(err, result) {
-    if (err) {
-      res.json({
-        confirmation: 'fail',
-        message: err
-      })
-
-      return
-    }
-
+  controller.update(id, req.body, false)
+  .then(function(result) {
     res.json({
       confirmation: 'success',
       result: result
+    })
+  })
+  .catch(function(err) {
+    res.json({
+      confirmation: 'fail',
+      message: err
     })
   })
 })
@@ -138,18 +130,16 @@ router.delete('/:resource/:id', function(req, res, next) {
     return
   }
 
-  controller.delete(id, function(err) {
-    if (err) {
-      res.json({
-        confirmation: 'fail',
-        message: err
-      })
-
-      return
-    }
-
+  controller.delete(id, false)
+  .then(function(result) {
     res.json({
       confirmation: 'success'
+    })
+  })
+  .catch(function(err) {
+    res.json({
+      confirmation: 'fail',
+      message: err
     })
   })
 })
