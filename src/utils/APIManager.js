@@ -56,6 +56,29 @@ export default {
 
   delete: () => {
 
-  }
+  },
 
+  uploadFile: (url, file, params) => {
+    return new Promise((resolve, reject) => {
+
+          let uploadRequest = superagent.post(url)
+          uploadRequest.attach('file', file)
+
+          if (params != null){
+            Object.keys(params).forEach((key) => {
+              uploadRequest.field(key, params[key])
+            })
+          }
+
+          uploadRequest.end((err, resp) => {
+            if (err){
+          reject(err)
+                  return
+            }
+
+            const uploaded = resp.body
+            resolve(uploaded)
+          })
+    })
+  }
 }
