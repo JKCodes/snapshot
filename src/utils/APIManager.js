@@ -1,84 +1,74 @@
-import superagent from 'superagent';
+import superagent from 'superagent'
 import Promise from 'bluebird'
 
 export default {
 
-  get: (url, params) => {
-    return new Promise((resolve, reject) => {
-      superagent
-      .get(url)
-      .query(params)
-      .set('Accept', 'application/json')
-      .end((err, response) => {
-        if (err) {
-          reject(err)
-          return
-        }
+	get: (url, params) => {
+		return new Promise((resolve, reject) => {
+			superagent
+			.get(url)
+			.query(params)
+			.set('Accept', 'application/json')
+			.end((err, response) => {
+				if (err){
+					reject(err)
+					return
+				}
 
-        resolve(response.body)
-      })
-    })
-  },
+				if (response.body.confirmation != 'success'){
+					reject({message: response.body.message})
+					return
+				}
 
-  post: (url, body) => {
-    return new Promise((resolve, reject) => {
-      superagent
-      .post(url)
-      .send(body)
-      .set('Accept', 'application/json')
-      .end((err, response) => {
-        if (err) {
-          reject(err)
-          return
-        }
+				resolve(response.body)
+			})
+		})
+	},
 
-        resolve(response.body)
-      })
-    })
-  },
+	post: (url, params) => {
+		return new Promise((resolve, reject) => {
+			superagent
+			.post(url)
+			.send(params)
+			.set('Accept', 'application/json')
+			.end((err, response) => {
+				if (err){
+					reject(err)
+					return
+				}
 
-  put: (url, body) => {
-    return new Promise((resolve, reject) => {
-      superagent
-      .put(url)
-      .send(body)
-      .set('Accept', 'application/json')
-      .end((err, response) => {
-        if (err) {
-          reject(err)
-          return
-        }
+				if (response.body.confirmation != 'success'){
+					reject({message: response.body.message})
+					return
+				}
 
-        resolve(response.body)
-      })
-    })
-  },
+				resolve(response.body)
+			})
+		})
+	},
 
-  delete: () => {
+	uploadFile: (url, file, params) => {
+		return new Promise((resolve, reject) => {
 
-  },
+	        let uploadRequest = superagent.post(url)
+	        uploadRequest.attach('file', file)
 
-  uploadFile: (url, file, params) => {
-    return new Promise((resolve, reject) => {
+	        if (params != null){
+		        Object.keys(params).forEach((key) => {
+			        uploadRequest.field(key, params[key])
+		        })
+	        }
 
-          let uploadRequest = superagent.post(url)
-          uploadRequest.attach('file', file)
+	        uploadRequest.end((err, resp) => {
+	        	if (err){
+					reject(err)
+	              	return
+	        	}
 
-          if (params != null){
-            Object.keys(params).forEach((key) => {
-              uploadRequest.field(key, params[key])
-            })
-          }
-
-          uploadRequest.end((err, resp) => {
-            if (err){
-          reject(err)
-                  return
-            }
-
-            const uploaded = resp.body
-            resolve(uploaded)
-          })
-    })
-  }
+	        	const uploaded = resp.body
+	        	console.log('UPLOAD COMPLETE: '+JSON.stringify(uploaded))
+	        	resolve(uploaded)
+	        })
+		})
+	}
 }
