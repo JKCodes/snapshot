@@ -23,6 +23,14 @@ export default (state = initialState, action) => {
 			updated['list'] = null
 			return updated
 
+		case constants.POST_CREATED:
+			let updatedList = (updated['list'] == null) ? [] : Object.assign([], updated["list"])
+
+			updatedList.unshift(action.post)
+			updated['list'] = updatedList
+
+			return updated
+
 		default:
 			return updated
 

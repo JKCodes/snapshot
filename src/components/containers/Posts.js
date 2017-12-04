@@ -7,22 +7,23 @@ import { CreatePost } from '../view'
 class Posts extends Component {
 
 	componentDidMount(){
-		this.props.fetchPosts(null)
+		const currentLocation = this.props.posts.currentLocation
+		this.props.fetchPosts(currentLocation)
 	}
 
 	componentDidUpdate(){
 		console.log('componentDidUpdate: ')
-		if (this.props.posts.list == null)
-			this.props.fetchPosts(null)
+		if (this.props.posts.list == null){
+			const currentLocation = this.props.posts.currentLocation
+			this.props.fetchPosts(currentLocation)
+		}
 	}
 
 	submitPost(post){
 		const user = this.props.account.user
-
-		if (user == null) {
+		if (user == null){
 			alert('Please sign up or login to submit.')
 			return
-
 		}
 
 		post['profile'] = {
@@ -33,7 +34,7 @@ class Posts extends Component {
 		const currentLocation = this.props.posts.currentLocation
 		post['geo'] = [
 			currentLocation.lat,
-			currentLocation.lng,
+			currentLocation.lng
 		]
 
 		console.log('submitPost: '+JSON.stringify(post))
@@ -46,16 +47,30 @@ class Posts extends Component {
 		return (
 			<div>
 				<CreatePost onCreate={this.submitPost.bind(this)} />
-				<ol>
-					{ (list == null) ? null :
-						list.map((post, i) => {
-							return (
-								<li key={post.id}>{post.caption}</li>
-							)
-						})
-					 }
 
-				</ol>
+				<div className="table-wrapper">
+					<table className="alt">
+						<thead>
+							<tr><th>Image</th><th>Caption</th><th>From</th></tr>
+						</thead>
+						<tbody>
+							{ (list == null) ? null :
+								list.map((post, i) => {
+									return (
+										<tr key={post.id}>
+											<td><img style={{width:64}} src={post.image} /></td>
+											<td>{post.caption}</td>
+											<td>{post.profile.username}</td>
+										</tr>
+
+									)
+								})
+							 }
+
+						</tbody>
+					</table>
+				</div>
+
 			</div>
 		)
 	}

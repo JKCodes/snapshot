@@ -65,10 +65,10 @@ export default {
 			.then(response => {
 				console.log('RESPONSE: '+JSON.stringify(response))
 				
-				// dispatch({
-				// 	type: constants.POSTS_RECEIVED,
-				// 	posts: response.results
-				// })
+				dispatch({
+					type: constants.POST_CREATED,
+					post: response.result
+				})
 			})
 			.catch((err) => {
 				console.log('ERROR: '+err)
@@ -79,7 +79,7 @@ export default {
 	fetchPosts: (params) => {
 		return (dispatch) => {
 			APIManager
-			.get('/api/post', null)
+			.get('/api/post', params)
 			.then(response => {
 				console.log('RESPONSE: '+JSON.stringify(response))
 				dispatch({
