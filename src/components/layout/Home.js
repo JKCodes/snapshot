@@ -1,23 +1,26 @@
 import React, { Component } from 'react'
-import { Posts } from '../containers'
+import { Posts, MapNavigation } from '../containers'
 
 class Home extends Component {
-  render() {
+  render(){
     return (
-
       <div className="container">
-        Home
+        Home Layout
         <div className="row">
+
           <div className="col-md-3">
-            Map
+            <MapNavigation />
+
           </div>
 
           <div className="col-md-6">
             <Posts />
+
           </div>
 
           <div className="col-md-3">
-            Account
+            ACCOUNT
+
           </div>
         </div>
       </div>
