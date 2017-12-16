@@ -57,7 +57,7 @@ class Account extends Component {
 				<h1 style={{textAlign:'center'}}>Welcome to Snapshot!</h1>
 				{ (currentUser == null) ? <Register onRegister={this.register.bind(this)} onLogin={this.login.bind(this)} /> : 
 					<div>
-						<h2 style={{textAlign:'center'}}>You are currently logged in as: {currentUser.username}</h2> 
+						<h3 style={{textAlign:'center'}}>Currently logged in as: {currentUser.username}</h3> 
 
 						<div className="row">
 							<div className="12u 12u$(small)">
