@@ -14,7 +14,7 @@ export default {
 				})
 			})
 			.catch((err) => {
-				console.log('ERROR: '+err)
+				alert(err.message)
 			})
 		}
 	},
@@ -33,7 +33,23 @@ export default {
 				alert(err.message)
 			})
 		}
-	},	
+	},
+	
+	logout: (params) => {
+		return (dispatch) => {
+			APIManager
+			.get('/account/logout', params)
+			.then(response => {
+				dispatch({
+					type: constants.CURRENT_USER_RECEIVED,
+					user: null
+				})
+			})
+			.catch((err) => {
+				alert(err.message)
+			})
+		}
+	},
 
 	checkCurrentUser: () => {
 		return (dispatch) => {
