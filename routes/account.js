@@ -110,7 +110,7 @@ router.post('/:action', function(req, res, next) {
 			if (isPasswordCorrect == false){
 				res.json({
 					confirmation: 'fail',
-					message: 'Wrong Password!'
+					message: 'Password is not correct.'
 				})
 
 				return
