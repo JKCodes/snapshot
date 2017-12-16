@@ -34,4 +34,4 @@ $ webpack
 $ nodemon
 ```
 
-6. note: you will need a Cloudinary account to test this app.  If you do not feel like create an account, feel free to visit [the deployed site](https://jkcodes-snapshot.herokuapp.com) to test the functionalities.
+6. note: you will need a Cloudinary account to test this app.  If you do not feel like creating an account, feel free to visit [the deployed site](https://jkcodes-snapshot.herokuapp.com) to test the functionalities.
