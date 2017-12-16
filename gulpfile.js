@@ -13,7 +13,8 @@ gulp.task('css', function(){
             [
                 './public/assets/css/font-awesome.min.css',
                 './public/assets/css/ie8.css',
-                './public/assets/css/main.css'
+                './public/assets/css/main.css',
+                './public/assets/css/sweetalert.css'
             ]
         )
         .pipe(minifyCSS())
@@ -31,7 +32,8 @@ gulp.task('build', function(){
 				'./public/assets/js/skel.min.js',
 				'./public/assets/js/util.js',
 				'./public/assets/js/ie/respond.min.js',
-				'./public/assets/js/main.js'
+                './public/assets/js/main.js',
+                './public/assets/js/sweetalert.min.js'
     		]
     	)
         .pipe(gp_concat('gulp-concat.js'))
