@@ -23,12 +23,22 @@ class Register extends Component {
 		event.preventDefault()
 
 		if (this.state.registration.username.length == 0){
-			alert('Please add your username.')
+			swal({
+			  title: "Oops!",
+			  text: "You forgot to add your username!",
+			  type: "error"
+			})
+
 			return
 		}
 
 		if (this.state.registration.password.length == 0){
-			alert('Please set your password.')
+			swal({
+			  title: "Oops!",
+			  text: "You forgot to add your password!",
+			  type: "error"
+			})
+
 			return
 		}
 
@@ -38,12 +48,22 @@ class Register extends Component {
 	submitLoginCredentials(event){
 		event.preventDefault()
 		if (this.state.registration.username.length == 0){
-			alert('Please add your username.')
+			swal({
+			  title: "Oops!",
+			  text: "You forgot to add your username!",
+			  type: "error"
+			})
+
 			return
 		}
 
 		if (this.state.registration.password.length == 0){
-			alert('Please set your password.')
+			swal({
+			  title: "Oops!",
+			  text: "You forgot to add your username!",
+			  type: "error"
+			})
+
 			return
 		}
 

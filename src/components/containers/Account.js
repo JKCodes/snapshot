@@ -11,10 +11,38 @@ class Account extends Component {
 
 	register(registration){
 		this.props.signup(registration)
+		.then(response => {
+			swal({
+			  title: "Success!",
+			  text: "Thank you for registering!",
+			  type: "success",
+			})
+		})
+		.catch(err => {
+			swal({
+			  title: "Registration Error",
+			  text: err.message,
+			  type: "error",
+			})
+		})
 	}
 
 	login(credentials){
 		this.props.login(credentials)
+		.then(response => {
+			swal({
+			  title: "Success!",
+			  text: "Welcome back, " + response.user.username,
+			  type: "success",
+			})
+		})
+		.catch(err => {
+			swal({
+			  title: "Login Error",
+			  text: err.message,
+			  type: "error",
+			})
+		})
 	}
 
 	logout() {
