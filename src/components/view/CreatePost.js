@@ -26,7 +26,6 @@ class CreatePost extends Component {
 
 	submitPost(event){
 		event.preventDefault()
-//		console.log('subimtPost: '+JSON.stringify(this.state.post))
 
 		if (this.state.post.image.length == 0){
 			alert('Please add an image first.')
@@ -43,7 +42,6 @@ class CreatePost extends Component {
 	}
 
 	imageSelected(files){
-		console.log('imageSelected: ')
 		const image = files[0]
 
 		const cloudName = 'dcxaoww0c'
@@ -64,16 +62,11 @@ class CreatePost extends Component {
 
 		APIManager.uploadFile(url, image, params)
 		.then((uploaded) => {
-			console.log('Upload Complete: '+JSON.stringify(uploaded))
 			let updated = Object.assign({}, this.state.post)
 			updated['image'] = uploaded['secure_url']
 			this.setState({
 				post: updated
 			})
-
-			// Cloudinary returns this:
-			// {"public_id":"w2wah5zepcihbdvpky3v","version":1484004334,"signature":"cee9e534a282591c60fb83f8e7bdb028108ab6b3","width":360,"height":360,"format":"png","resource_type":"image","created_at":"2017-01-09T23:25:34Z","tags":[],"bytes":21776,"type":"upload","etag":"d5d83eeac7bc222569a7cef022426c9f","url":"http://res.cloudinary.com/dcxaoww0c/image/upload/v1484004334/w2wah5zepcihbdvpky3v.png","secure_url":"https://res.cloudinary.com/dcxaoww0c/image/upload/v1484004334/w2wah5zepcihbdvpky3v.png","original_filename":"apple"}
-
 		})
 		.catch((err) => {
 			alert(err)

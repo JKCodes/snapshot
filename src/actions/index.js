@@ -78,9 +78,7 @@ export default {
 		return (dispatch) => {
 			APIManager
 			.post('/api/post', params)
-			.then(response => {
-				console.log('RESPONSE: '+JSON.stringify(response))
-				
+			.then(response => {				
 				dispatch({
 					type: constants.POST_CREATED,
 					post: response.result
@@ -97,7 +95,6 @@ export default {
 			APIManager
 			.get('/api/post', params)
 			.then(response => {
-				console.log('RESPONSE: '+JSON.stringify(response))
 				dispatch({
 					type: constants.POSTS_RECEIVED,
 					posts: response.results
