@@ -24,5 +24,6 @@ yarn-error.log*
 /reports
 
 .env
+/public/dist
 /public/theme
 TODO.md
