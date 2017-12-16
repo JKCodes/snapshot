@@ -9,19 +9,30 @@ class Posts extends Component {
 	componentDidMount(){
 		const currentLocation = this.props.posts.currentLocation
 		this.props.fetchPosts(currentLocation)
+		.catch(err => {
+			console.log(JSON.stringify(err))
+		})
 	}
 
 	componentDidUpdate(){
 		if (this.props.posts.list == null){
 			const currentLocation = this.props.posts.currentLocation
 			this.props.fetchPosts(currentLocation)
+			.catch(err => {
+				console.log(JSON.stringify(err))
+			})
 		}
 	}
 
 	submitPost(post){
 		const user = this.props.account.user
 		if (user == null){
-			alert('Please sign up or login to submit.')
+			swal({
+			  title: "Oops!",
+			  text: "Please Sign Up or Login to create a post",
+			  type: "error"
+			})
+
 			return
 		}
 
@@ -36,8 +47,7 @@ class Posts extends Component {
 			currentLocation.lng
 		]
 
-		console.log('submitPost: '+JSON.stringify(post))
-		this.props.createPost(post)
+		return this.props.createPost(post)
 	}
 
 	render(){
