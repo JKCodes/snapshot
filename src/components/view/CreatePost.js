@@ -87,17 +87,20 @@ class CreatePost extends Component {
 			<div style={{background:'#fff'}}>
 				<h2>Submit Post</h2>
 				<input id="caption" onChange={this.updatePost.bind(this)} type="text" placeholder="Caption" />
+				<div className="row" style={{textAlign:'center'}}>
+					<div className="12u 12u$(small)">
+						<p style={{margin: '8px 0' }}>Image Preview</p>
+						<img style={{width:'100%'}} src={this.state.post.image} />
+					</div>
+				</div>
 				<div className="row">
-					<div className="3u 12u$(small)">
+					<div className="6u 12u$(small)">
 						<Dropzone onDrop={this.imageSelected.bind(this)} style={{border:'none', marginTop:12}}>
 							<button className="button special small">Add Image</button>
 						</Dropzone>					
 					</div>
-					<div className="3u 12u$(small)">
-						<button className="button special small" style={{marginTop:12, marginLeft:12, width:90+'%'}} onClick={this.submitPost.bind(this)}>Submit</button>
-					</div>
 					<div className="6u 12u$(small)">
-						<img style={{width:120, float:'right', marginTop:12}} src={this.state.post.image} />
+						<button className="button special small" style={{marginTop:12}} onClick={this.submitPost.bind(this)}>Submit</button>
 					</div>
 				</div>
 
