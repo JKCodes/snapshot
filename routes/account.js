@@ -53,20 +53,40 @@ router.post('/:action', function(req, res, next) {
 	var action = req.params.action
 
 	if (action == 'register'){
+		// check first if an account exists for the provided username
 		controllers.profile
-		.post(req.body, false)
-		.then(function(profile){
-			req.session.user = profile.id // set the session
-			res.json({
-				confirmation: 'success',
-				user: profile
+		.get({username: req.body.username})
+		.then(function(profiles) {
+			if (profiles.length > 0) {
+				res.json({
+					confirmation: 'fail',
+					message: 'That username already exists.  Please pick a new username'
+				})
+
+				return
+			}
+
+			controllers.profile
+			.post(req.body, false)
+			.then(function(profile){
+				req.session.user = profile.id // set the session
+				res.json({
+					confirmation: 'success',
+					user: profile
+				})
+			})
+			.catch(function(err){
+				res.json({
+					confirmation: 'fail',
+					message: err
+				})
 			})
 		})
-		.catch(function(err){
+		.catch(function(err) {
 			res.json({
 				confirmation: 'fail',
 				message: err
-			})
+			})	
 		})
 	}
 
