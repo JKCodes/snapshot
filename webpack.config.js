@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+require('dotenv').config();
 
 module.exports = {
   entry: {
@@ -22,7 +23,14 @@ module.exports = {
             warnings: true
         }
       })
-  ] : [], 
+  ] : [
+    new webpack.EnvironmentPlugin([
+      'CLOUDINARY_CLOUDNAME',
+      'CLOUDINARY_API_KEY',
+      'CLOUDINARY_API_SECRET',
+      'CLOUDINARY_UPLOAD_PRESET'
+    ])
+  ], 
   module: {
     loaders: [
       {
