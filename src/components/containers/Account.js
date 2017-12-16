@@ -32,7 +32,7 @@ class Account extends Component {
 		.then(response => {
 			swal({
 			  title: "Success!",
-			  text: "Welcome back, " + response.user.username,
+			  text: "Welcome back, " + response.user.username + '!',
 			  type: "success",
 			})
 		})
