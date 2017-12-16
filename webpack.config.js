@@ -22,13 +22,7 @@ module.exports = {
         compress: {
             warnings: true
         }
-      }),
-      new webpack.EnvironmentPlugin([
-        'CLOUDINARY_CLOUDNAME',
-        'CLOUDINARY_API_KEY',
-        'CLOUDINARY_API_SECRET',
-        'CLOUDINARY_UPLOAD_PRESET'
-      ])
+      })
   ] : [
     new webpack.EnvironmentPlugin([
       'CLOUDINARY_CLOUDNAME',
