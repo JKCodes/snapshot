@@ -13,12 +13,10 @@ export default (state = initialState, action) => {
 
 	switch (action.type){
 		case constants.POSTS_RECEIVED:
-			// console.log('POSTS_RECEIVED: '+JSON.stringify(action.posts))
-			updated['list'] = action.posts
+			updated['list'] = action.payload
 			return updated
 
 		case constants.CURRENT_LOCATION_CHANGED:
-//			console.log('CURRENT_LOCATION_CHANGED: '+JSON.stringify(action.location))
 			updated['currentLocation'] = action.location
 			updated['list'] = null
 			return updated
@@ -26,7 +24,7 @@ export default (state = initialState, action) => {
 		case constants.POST_CREATED:
 			let updatedList = (updated['list'] == null) ? [] : Object.assign([], updated["list"])
 
-			updatedList.unshift(action.post)
+			updatedList.unshift(action.payload)
 			updated['list'] = updatedList
 
 			return updated
