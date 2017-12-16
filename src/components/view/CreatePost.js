@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
-import sha1 from 'sha1'
-import { APIManager } from '../../utils'
+import { APIManager, CloudinaryUtil } from '../../utils'
 
 class CreatePost extends Component {
 
@@ -9,7 +8,7 @@ class CreatePost extends Component {
 		super()
 		this.state = {
 			post: {
-				image: '',
+				image: null,
 				caption: ''
 			}
 		}
@@ -27,40 +26,53 @@ class CreatePost extends Component {
 	submitPost(event){
 		event.preventDefault()
 
-		if (this.state.post.image.length == 0){
-			alert('Please add an image first.')
+		if (!this.state.post.image || this.state.post.image.length == 0){
+			swal({
+			  title: "Oops!",
+			  text: "Please add an image first.",
+			  type: "error"
+			})
+
 			return
 		}
 
 		if (this.state.post.caption.length == 0){
-			alert('Please add a caption.')
+			swal({
+			  title: "Oops!",
+			  text: "Please add a caption first.",
+			  type: "error"
+			})
+			
 			return
 		}
 
 		let updated = Object.assign({}, this.state.post)
 		this.props.onCreate(updated)
+		.then(response => {
+			let updated = Object.assign({}, this.state.post)
+			updated['image'] = null
+			updated['caption'] = ''
+			this.setState({
+				post: updated
+			})
+
+			swal({
+			  title: "Success",
+			  text: "Your post was created successfully.",
+			  type: "success"
+			})
+		})
+		.catch(err => {
+			swal({
+				title: "An unexpected error has occurred",
+			  text: "Please try posting again.",
+			  type: "error"
+			})
+		})
 	}
 
 	imageSelected(files){
-		const image = files[0]
-
-		const cloudName = 'dcxaoww0c'
-		const url = 'https://api.cloudinary.com/v1_1/'+cloudName+'/image/upload'
-
-		const timestamp = Date.now()/1000
-		const uploadPreset = 'rnxsz09i'
-
-		const paramsStr = 'timestamp='+timestamp+'&upload_preset='+uploadPreset+'rVxIqxqsbdcxTo4X6bo9rUqkQms'
-
-		const signature = sha1(paramsStr)
-		const params = {
-			'api_key': '399938195648612',
-			'timestamp': timestamp,
-			'upload_preset': uploadPreset,
-			'signature': signature
-		}
-
-		APIManager.uploadFile(url, image, params)
+		CloudinaryUtil.upload(files)
 		.then((uploaded) => {
 			let updated = Object.assign({}, this.state.post)
 			updated['image'] = uploaded['secure_url']
@@ -69,21 +81,23 @@ class CreatePost extends Component {
 			})
 		})
 		.catch((err) => {
-			alert(err)
+			swal({
+			  title: "Image Add Error",
+			  text: err,
+			  type: "error"
+			})
 		})
-
-
 	}
 
 	render(){
 		return (
 			<div style={{background:'#fff'}}>
 				<h2>Submit Post</h2>
-				<input id="caption" onChange={this.updatePost.bind(this)} type="text" placeholder="Caption" />
+				<input id="caption" value={this.state.post.caption} onChange={this.updatePost.bind(this)} type="text" placeholder="Caption" />
 				<div className="row" style={{textAlign:'center'}}>
 					<div className="12u 12u$(small)">
-						<p style={{margin: '8px 0' }}>Image Preview</p>
-						<img style={{width:'100%'}} src={this.state.post.image} />
+						<p style={{width: 110, margin: '8px auto', borderBottom: '1px solid #ddd' }}>Image Preview</p>
+						{this.state.post.image ? <img style={{width:'100%'}} src={this.state.post.image} /> : <p>Add an image first</p> }
 					</div>
 				</div>
 				<div className="row">
