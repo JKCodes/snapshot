@@ -17,13 +17,26 @@ class Account extends Component {
 		this.props.login(credentials)
 	}
 
+	logout() {
+		this.props.logout(null)
+	}
+
 	render(){
 		const currentUser = this.props.account.user
 
 		return (
 			<div>
+				<h1 style={{textAlign:'center'}}>Welcome to Snapshot!</h1>
 				{ (currentUser == null) ? <Register onRegister={this.register.bind(this)} onLogin={this.login.bind(this)} /> : 
-					<h2>{currentUser.username}</h2> 
+					<div>
+						<h2 style={{textAlign:'center'}}>You are currently logged in as: {currentUser.username}</h2> 
+
+						<div className="row">
+							<div className="12u 12u$(small)">
+								<button className="button special small" style={{marginBottom: '1em'}}onClick={this.logout.bind(this)}>Logout</button>
+							</div>
+						</div>
+					</div>
 				}
 
 			</div>
@@ -41,6 +54,7 @@ const dispatchToProps = (dispatch) => {
 	return {
 		signup: (params) => dispatch(actions.signup(params)),
 		login: (params) => dispatch(actions.login(params)),
+		logout: (params) => dispatch(actions.logout(params)),
 		checkCurrentUser: () => dispatch(actions.checkCurrentUser())
 	}
 }
