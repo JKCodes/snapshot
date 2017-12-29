@@ -40,7 +40,7 @@ gulp.task('build', function(){
         .pipe(gulp.dest('./public/min/'))
         .pipe(gp_rename('vendor.min.js'))
         .pipe(gp_uglify())
-        .pipe(gulp.dest('./public/dist/'));
+        .pipe(gulp.dest('./public/dist/'))
 })
 
 gulp.task('default', ['css', 'build'], function(){})
